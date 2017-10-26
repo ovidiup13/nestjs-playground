@@ -9,7 +9,9 @@ import { LoggerMiddleware } from '../middlewares/logger.middleware';
 })
 export class ApplicationModule implements NestModule {
     configure(consumer: MiddlewaresConsumer): void {
-        consumer.apply(LoggerMiddleware).forRoutes(
+        consumer.apply(LoggerMiddleware)
+            .with('ApplicationModule')
+            .forRoutes(
             {
                 path: '/cats',
                 method: RequestMethod.GET
@@ -28,6 +30,6 @@ export class ApplicationModule implements NestModule {
             // or
             // can also take single or multiple controller classes
             // consumer.apply(LoggerMiddleware).forRoutes(CatsController);
-        );
+            );
     }
 }
