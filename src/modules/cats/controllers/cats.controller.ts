@@ -1,8 +1,9 @@
-import { Controller, Get, Req, Post, Body, HttpStatus, Res, Put } from '@nestjs/common';
-import { HttpException } from '@nestjs/core';
+import { Controller, Get, Req, Post, Body, HttpStatus, Res, Put, UseFilters } from '@nestjs/common';
+
+import { HttpExceptionFilter } from '../../../filters/http-exception.filter';
+import { ForbiddenException } from '../exceptions/forbidden.exception';
 
 import { CreateCatDto } from '../dto/create-cat.dto';
-import { Cat } from '../interfaces/cat.interface';
 import { CatsService } from '../components/cats.service';
 
 @Controller('cats')
@@ -22,9 +23,10 @@ export class CatsController {
     }
 
     @Put()
+    @UseFilters(new HttpExceptionFilter())
     async update( @Body() createCatDto: CreateCatDto) {
         // can override response body by passing an object instead of the string 'Forbidden'
-        throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+        throw new ForbiddenException();
     }
 
 }
